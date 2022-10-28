@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-
+using System;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;// Required when using Event data.
 namespace HeneGames.Airplane
 {
     public class SimpleAirplaneCamera : MonoBehaviour
@@ -17,8 +19,8 @@ namespace HeneGames.Airplane
         private void Start()
         {
             //Lock and hide mouse
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            // Cursor.lockState = CursorLockMode.Locked;
+            // Cursor.visible = false;
         }
 
         private void Update()
@@ -29,7 +31,7 @@ namespace HeneGames.Airplane
         private void CameraFovUpdate()
         {
             //Turbo
-            if(!airPlaneController.PlaneIsDead())
+            if (!airPlaneController.PlaneIsDead())
             {
                 if (Input.GetKey(KeyCode.LeftShift))
                 {

@@ -22,6 +22,11 @@ namespace HeneGames.Airplane
 
         #endregion
 
+        [Header("Other Controls Settings")]
+        public Joystick joystick;
+        public bool isTurboActive = false;
+        public bool deactivatingTurbo = false;
+
         [Header("Wing trail effects")]
         [Range(0.01f, 1f)]
         [SerializeField] private float trailThickness = 0.045f;
@@ -138,16 +143,26 @@ namespace HeneGames.Airplane
             //Move forward
             transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
 
-            //Rotate airplane by inputs
+            // plan up and down
+            if (joystick.Vertical < -0.2f || joystick.Vertical > 0.2f)
+            {
+                transform.Rotate(Vector3.right * joystick.Vertical * currentPitchSpeed * Time.deltaTime);
+            }
+            else
+            {
+                transform.Rotate(Vector3.right * Input.GetAxis("Vertical") * currentPitchSpeed * Time.deltaTime);
+            }
+
+            // plane rotation
             transform.Rotate(Vector3.forward * -Input.GetAxis("Horizontal") * currentRollSpeed * Time.deltaTime);
-            transform.Rotate(Vector3.right * Input.GetAxis("Vertical") * currentPitchSpeed * Time.deltaTime);
+            // transform.Rotate(Vector3.right * Input.GetAxis("Vertical") * currentPitchSpeed * Time.deltaTime);
 
             //Rotate yaw
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(KeyCode.E) || joystick.Horizontal > 0.2f)
             {
                 transform.Rotate(Vector3.up * currentYawSpeed * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.Q))
+            else if (Input.GetKey(KeyCode.Q) || joystick.Horizontal < -0.2f)
             {
                 transform.Rotate(-Vector3.up * currentYawSpeed * Time.deltaTime);
             }
@@ -164,7 +179,22 @@ namespace HeneGames.Airplane
 
             //Turbo
             if (Input.GetKey(KeyCode.LeftShift))
+                isTurboActive = true;
+
+            Turbo(isTurboActive);
+        }
+
+        public void resetTurbo()
+        {
+            isTurboActive = false;
+            deactivatingTurbo = false;
+        }
+
+        public void Turbo(bool trubo)
+        {
+            if (trubo)
             {
+                isTurboActive = true;
                 //Set speed to turbo speed and rotation to turbo values
                 maxSpeed = turboSpeed;
 
@@ -180,6 +210,11 @@ namespace HeneGames.Airplane
 
                 //Audio
                 currentEngineSoundPitch = turboSoundPitch;
+                if (!deactivatingTurbo)
+                {
+                    Invoke("resetTurbo", 2f);
+                    deactivatingTurbo = true;
+                }
             }
             else
             {
@@ -259,7 +294,7 @@ namespace HeneGames.Airplane
 
             for (int i = 0; i < _lights.Length; i++)
             {
-                if(!planeIsDead)
+                if (!planeIsDead)
                 {
                     _lights[i].intensity = Mathf.Lerp(_lights[i].intensity, _intensity, 10f * Time.deltaTime);
                 }
@@ -267,7 +302,7 @@ namespace HeneGames.Airplane
                 {
                     _lights[i].intensity = Mathf.Lerp(_lights[i].intensity, 0f, 10f * Time.deltaTime);
                 }
-               
+
             }
         }
 
@@ -333,7 +368,7 @@ namespace HeneGames.Airplane
 
         public bool UsingTurbo()
         {
-            if(maxSpeed == turboSpeed)
+            if (maxSpeed == turboSpeed)
             {
                 return true;
             }
