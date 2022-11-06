@@ -90,8 +90,30 @@ namespace HeneGames.Airplane
         [Header("Colliders")]
         [SerializeField] private Transform crashCollidersRoot;
 
-        private void Start()
+
+        public bool isSoundOn;
+        public GameObject soundOnButton;
+        public GameObject soundOffButton;
+
+        public void setResetPlayerScriptValues()
         {
+            if (planeIsDead)
+                transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+
+
+            maxSpeed = 0.6f;
+            currentYawSpeed = 100;
+            currentPitchSpeed = 100;
+            currentRollSpeed = 200;
+            currentSpeed = 0;
+            currentEngineLightIntensity = 0;
+            currentEngineSoundPitch = 0;
+            planeIsDead = false;
+            rb = null;
+            isTurboActive = false;
+            deactivatingTurbo = false;
+
+
             //Setup speeds
             maxSpeed = defaultSpeed;
             currentSpeed = defaultSpeed;
@@ -103,6 +125,28 @@ namespace HeneGames.Airplane
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
 
             SetupColliders(crashCollidersRoot);
+            ResetColliders();
+
+        }
+        private void Start()
+        {
+
+            isSoundOn = PlayerPrefs.GetInt("Sound", 1) == 1;
+            isSoundOn = 1 == 1;
+            if (isSoundOn)
+            {
+                soundOnButton.SetActive(true);
+                soundOffButton.SetActive(false);
+                engineSoundSource.Play();
+            }
+            else
+            {
+                soundOnButton.SetActive(false);
+                soundOffButton.SetActive(true);
+                engineSoundSource.Stop();
+            }
+
+            setResetPlayerScriptValues();
         }
 
         private void Update()
@@ -154,15 +198,16 @@ namespace HeneGames.Airplane
             }
 
             // plane rotation
-            transform.Rotate(Vector3.forward * -Input.GetAxis("Horizontal") * currentRollSpeed * Time.deltaTime);
-            // transform.Rotate(Vector3.right * Input.GetAxis("Vertical") * currentPitchSpeed * Time.deltaTime);
-
+            if (Input.acceleration.x > .3f || Input.acceleration.x < -.3f)
+            {
+                transform.Rotate(Vector3.forward * -Input.acceleration.x * currentRollSpeed * Time.deltaTime);
+            }
             //Rotate yaw
-            if (Input.GetKey(KeyCode.E) || joystick.Horizontal > 0.2f)
+            if (Input.GetKey(KeyCode.D) || joystick.Horizontal > 0.2f)
             {
                 transform.Rotate(Vector3.up * currentYawSpeed * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.Q) || joystick.Horizontal < -0.2f)
+            else if (Input.GetKey(KeyCode.A) || joystick.Horizontal < -0.2f)
             {
                 transform.Rotate(-Vector3.up * currentYawSpeed * Time.deltaTime);
             }
@@ -241,11 +286,14 @@ namespace HeneGames.Airplane
         #region Audio
         private void AudioSystem()
         {
-            engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, currentEngineSoundPitch, 10f * Time.deltaTime);
-
-            if (planeIsDead)
+            if (isSoundOn)
             {
-                engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 0.1f);
+                engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, currentEngineSoundPitch, 10f * Time.deltaTime);
+
+                if (planeIsDead)
+                {
+                    engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 0.1f);
+                }
             }
         }
 
@@ -325,6 +373,14 @@ namespace HeneGames.Airplane
             }
 
             return false;
+        }
+
+        private void ResetColliders()
+        {
+            for (int i = 0; i < airPlaneColliders.Count; i++)
+            {
+                airPlaneColliders[i].collideSometing = false;
+            }
         }
 
         private void Crash()
