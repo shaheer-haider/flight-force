@@ -101,13 +101,7 @@ namespace HeneGames.Airplane
                 transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
 
 
-            maxSpeed = 0.6f;
-            currentYawSpeed = 100;
-            currentPitchSpeed = 100;
-            currentRollSpeed = 200;
-            currentSpeed = 0;
-            currentEngineLightIntensity = 0;
-            currentEngineSoundPitch = 0;
+
             planeIsDead = false;
             rb = null;
             isTurboActive = false;
@@ -116,7 +110,7 @@ namespace HeneGames.Airplane
 
             //Setup speeds
             maxSpeed = defaultSpeed;
-            currentSpeed = defaultSpeed;
+            currentSpeed = 10f;
 
             //Get and set rigidbody
             rb = GetComponent<Rigidbody>();
@@ -132,18 +126,15 @@ namespace HeneGames.Airplane
         {
 
             isSoundOn = PlayerPrefs.GetInt("Sound", 1) == 1;
-            isSoundOn = 1 == 1;
             if (isSoundOn)
             {
                 soundOnButton.SetActive(true);
                 soundOffButton.SetActive(false);
-                engineSoundSource.Play();
             }
             else
             {
                 soundOnButton.SetActive(false);
                 soundOffButton.SetActive(true);
-                engineSoundSource.Stop();
             }
 
             setResetPlayerScriptValues();
@@ -286,15 +277,38 @@ namespace HeneGames.Airplane
         #region Audio
         private void AudioSystem()
         {
-            if (isSoundOn)
+            if (!isSoundOn)
             {
-                engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, currentEngineSoundPitch, 10f * Time.deltaTime);
-
-                if (planeIsDead)
-                {
-                    engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 0.1f);
-                }
+                engineSoundSource.Stop();
+                return;
             }
+            if (!engineSoundSource.isPlaying)
+            {
+                engineSoundSource.Play();
+            }
+            if (planeIsDead)
+            {
+                engineSoundSource.volume = Mathf.Lerp(engineSoundSource.volume, 0f, 0.1f);
+                return;
+            }
+            engineSoundSource.pitch = Mathf.Lerp(engineSoundSource.pitch, currentEngineSoundPitch, 10f * Time.deltaTime);
+
+        }
+
+        public void PlayEngineSound()
+        {
+            PlayerPrefs.SetInt("Sound", 1);
+            soundOffButton.SetActive(false);
+            soundOnButton.SetActive(true);
+            isSoundOn = true;
+        }
+
+        public void StopEngineSound()
+        {
+            PlayerPrefs.SetInt("Sound", 0);
+            soundOffButton.SetActive(true);
+            soundOnButton.SetActive(false);
+            isSoundOn = false;
         }
 
         #endregion

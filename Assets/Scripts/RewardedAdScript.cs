@@ -24,13 +24,8 @@ public class RewardedAdScript : MonoBehaviour
     public void RequestRewardedVideo()
     {
         string adUnitId;
-#if UNITY_ANDROID
-        adUnitId = "ca-app-pub-3940256099942544/6300978111";
-#elif UNITY_IPHONE
-            adUnitId = "ca-app-pub-3940256099942544/1712485313";
-#else
-            adUnitId = "unexpected_platform";
-#endif
+
+        adUnitId = "ca-app-pub-4783493285312327/1078213803";
 
         this.rewardedAd = new RewardedAd(adUnitId);
 
