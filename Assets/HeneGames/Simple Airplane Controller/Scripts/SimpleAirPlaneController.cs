@@ -34,13 +34,13 @@ namespace HeneGames.Airplane
 
         [Header("Rotating speeds")]
         [Range(5f, 500f)]
-        [SerializeField] private float yawSpeed = 50f;
+        [SerializeField] private float yawSpeed = 20f;
 
         [Range(5f, 500f)]
-        [SerializeField] private float pitchSpeed = 100f;
+        [SerializeField] private float pitchSpeed = 30f;
 
         [Range(5f, 500f)]
-        [SerializeField] private float rollSpeed = 200f;
+        [SerializeField] private float rollSpeed = 100f;
 
         [Header("Rotating speeds multiplers when turbo is used")]
         [Range(0.1f, 5f)]
@@ -54,10 +54,10 @@ namespace HeneGames.Airplane
 
         [Header("Moving speed")]
         [Range(5f, 100f)]
-        [SerializeField] private float defaultSpeed = 10f;
+        [SerializeField] private float defaultSpeed = 20f;
 
         [Range(10f, 200f)]
-        [SerializeField] private float turboSpeed = 20f;
+        [SerializeField] private float turboSpeed = 40f;
 
         [Range(0.1f, 50f)]
         [SerializeField] private float accelerating = 10f;
@@ -124,17 +124,18 @@ namespace HeneGames.Airplane
         }
         private void Start()
         {
-
             isSoundOn = PlayerPrefs.GetInt("Sound", 1) == 1;
             if (isSoundOn)
             {
                 soundOnButton.SetActive(true);
                 soundOffButton.SetActive(false);
+                PlayEngineSound();
             }
             else
             {
                 soundOnButton.SetActive(false);
                 soundOffButton.SetActive(true);
+                StopEngineSound();
             }
 
             setResetPlayerScriptValues();
@@ -248,7 +249,7 @@ namespace HeneGames.Airplane
                 currentEngineSoundPitch = turboSoundPitch;
                 if (!deactivatingTurbo)
                 {
-                    Invoke("resetTurbo", 2f);
+                    Invoke("resetTurbo", 5f);
                     deactivatingTurbo = true;
                 }
             }

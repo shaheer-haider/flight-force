@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 9162521749407435537}
   - component: {fileID: 9169580666267855081}
   - component: {fileID: 9179947892379864181}
-  - component: {fileID: 9210528805049195073}
   - component: {fileID: 1400546095674363099}
+  - component: {fileID: 4123560553661418493}
   m_Layer: 0
   m_Name: Blue Diamond
   m_TagString: Blue Diamond
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &9210528805049195073
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9166111263019545137}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 34eac2aca8510464aab52cc659f8cd64, type: 3}
 --- !u!95 &1400546095674363099
 Animator:
   serializedVersion: 4
@@ -119,3 +105,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &4123560553661418493
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166111263019545137}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15326688, y: 0.22496271, z: 0.11114674}
+  m_Center: {x: 0, y: 0, z: 0}

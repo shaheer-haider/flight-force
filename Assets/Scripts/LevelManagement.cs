@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class LevelManagement : MonoBehaviour
 {
     private List<float> xRange = new List<float> { -900f, 900f };
-    private List<float> zRange = new List<float> { -1800f, 900f };
+    private List<float> zRange = new List<float> { -900f, 900f };
     public int levelNumber = 0;
     private int groundZWidth = 2000;
     public List<GameObject> obstaclesPrefab = new List<GameObject>();
@@ -72,8 +72,8 @@ public class LevelManagement : MonoBehaviour
     public void updateObstaclesCoroutine()
     {
         // create obstacles
-        int xIncrement = Random.Range(70, 100);
-        int zIncrement = Random.Range(70, 100);
+        int xIncrement = Random.Range(140, 200);
+        int zIncrement = Random.Range(140, 200);
         List<int> prefabRanges = new List<int> { };
 
         for (float x = xRange[0]; x < xRange[1]; x += xIncrement)
@@ -92,9 +92,9 @@ public class LevelManagement : MonoBehaviour
     }
     void createWheel()
     {
-        for (float x = xRange[0] + 100; x < xRange[1]; x += Random.Range(500, 600))
+        for (float x = xRange[0] + 200; x < xRange[1]; x += Random.Range(500, 600))
         {
-            for (float z = zRange[0] + 100; z < zRange[1]; z += Random.Range(500, 600))
+            for (float z = zRange[0] + 200; z < zRange[1]; z += Random.Range(500, 600))
             {
                 int rotationRange = Random.Range(0, 2);
                 GameObject obstacle = Instantiate(wheelPrefab, new Vector3(x, Random.Range(250, 300), z), Quaternion.Euler(new List<int> { 90, 0 }[rotationRange], 0, 0));

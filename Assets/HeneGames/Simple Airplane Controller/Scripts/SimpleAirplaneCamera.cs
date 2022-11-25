@@ -24,7 +24,6 @@ namespace HeneGames.Airplane
             //Lock and hide mouse
             // Cursor.lockState = CursorLockMode.Locked;
             // Cursor.visible = false;
-            // freeLook.enabled = false;
         }
 
         private void Update()
@@ -50,18 +49,13 @@ namespace HeneGames.Airplane
 
         public void ChangeCameraFov(float _fov)
         {
+            bool isJoyStickMoving = joystick.Vertical != 0 || joystick.Horizontal != 0;
             float _deltatime = Time.deltaTime;
-
-            if (Input.touchCount > 0)
+            if (freeLook.m_Lens.FieldOfView != _fov)
             {
-                // don't do anything if the touch is on a UI element
-                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) || joystick.Vertical != 0 || joystick.Horizontal != 0)
-                    return;
-
-                // move camera with the touch
-                freeLook.m_XAxis.Value += Input.GetTouch(Input.touchCount - 1).deltaPosition.x * _deltatime;
-                freeLook.m_YAxis.Value += Input.GetTouch(Input.touchCount - 1).deltaPosition.y * _deltatime;
+                freeLook.m_Lens.FieldOfView = Mathf.Lerp(freeLook.m_Lens.FieldOfView, _fov, _deltatime * 5f);
             }
+            
         }
     }
 }

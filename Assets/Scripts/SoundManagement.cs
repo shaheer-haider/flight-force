@@ -13,7 +13,6 @@ public class SoundManagement : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         isSoundOn = PlayerPrefs.GetInt("Sound", 1) == 1;
-        isSoundOn = 1 == 1;
         if (isSoundOn)
         {
             soundOnButton.SetActive(true);
@@ -33,7 +32,7 @@ public class SoundManagement : MonoBehaviour
         soundOffButton.SetActive(true);
         isSoundOn = true;
         audioSource.Pause();
-        PlayerPrefs.SetInt("Sound", 1);
+        PlayerPrefs.SetInt("Sound", 0);
     }
     public void PlayMusic()
     {
@@ -48,6 +47,6 @@ public class SoundManagement : MonoBehaviour
         {
             audioSource.UnPause();
         }
-        PlayerPrefs.SetInt("Sound", 0);
+        PlayerPrefs.SetInt("Sound", 1);
     }
 }

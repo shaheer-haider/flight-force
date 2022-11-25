@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3280806643709532335}
   - component: {fileID: 3305717888652550027}
   - component: {fileID: 3298014066805057123}
-  - component: {fileID: 3275336652876666279}
   - component: {fileID: 6049571780815927460}
+  - component: {fileID: 8199054667190877741}
   m_Layer: 0
   m_Name: Red Diamond
   m_TagString: Red Diamond
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3275336652876666279
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3283671548458713747}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 34eac2aca8510464aab52cc659f8cd64, type: 3}
 --- !u!95 &6049571780815927460
 Animator:
   serializedVersion: 4
@@ -119,3 +105,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &8199054667190877741
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3283671548458713747}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15326688, y: 0.22496271, z: 0.11114674}
+  m_Center: {x: 0, y: 0, z: 0}
